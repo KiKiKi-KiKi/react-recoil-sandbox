@@ -32,7 +32,9 @@ module.exports = {
     'no-console': 'warn',
     'no-var': 'error',
     'no-dupe-class-members': 'error',
-    'eol-last': ['error', 'always'],
+    // Fixed by Prettier
+    // enforce newline at the end of file, with no multiple empty lines (fixable)
+    // 'eol-last': ['error', 'always'],
     'object-shorthand': ['error', 'always'],
     'prefer-arrow-callback': 'error',
     'prefer-const': 'error',
