@@ -24,6 +24,110 @@ $ yarn run eslint --init
 ✔ Would you like to install them now with npm? Yes
 ```
 
+`.eslintrc.js`
+
+```diff
+module.exports = {
+  env: {
+    browser: true,
+    es2021: true,
++     // module.exports をエラーにしない
++     node: true,
+  },
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
++     'plugin:react-hooks/recommended',
++     'prettier',
+  ],
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: 12,
+    sourceType: 'module',
++     tsconfigRootDir: __dirname,
++     project: ['./tsconfig.json'],
+  },
++   settings: {
++     // React のバージョンを自動検出
++     react: {
++       version: 'detect',
++     },
++   },
+  plugins: ['react', '@typescript-eslint'],
+  rules: {
+  },
+};
+```
+
+### Prettier
+
+```sh
+$ touch .prettier.js
+```
+
+`.prettier.js`
+
+```js
+module.exports = {
+  trailingComma: 'all',
+  tabWidth: 2,
+  printWidth: 80,
+  singleQuote: true,
+  arrowParens: 'always',
+  bracketSpacing: true,
+  jsxBracketSameLine: false,
+  semi: true,
+};
+```
+
+#### VSCode settings
+
+Auto format by editor.
+
+```sh
+$ mkdir .vscode
+$ touch .vscode/settings.json
+```
+
+`.vscode/settings.json`
+
+```json
+{
+  "editor.tabSize": 2,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnPaste": false,
+  "editor.formatOnSave": true,
+  "files.exclude": {
+    "**/node_modules": true
+  },
+  "[markdown]": {
+    "files.trimTrailingWhitespace": false
+  }
+}
+```
+
+### Check conflict setting
+
+```sh
+$ npx eslint-config-prettier 'src/**/*.{js,jsx,ts,tsx}'
+The following rules are unnecessary or might conflict with Prettier:
+
+- eol-last
+```
 
 # Getting Started with Create React App
 
