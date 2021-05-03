@@ -1,3 +1,30 @@
+## Setup ESLint Prettier
+
+### install packages
+
+```sh
+# eslint prettier
+$ yarn add -D eslint prettier eslint-config-prettier
+# for typescript
+$ yarn add -D @typescript-eslint/parser @typescript-eslint/eslint-plugin
+# for react
+$ yarn add -D eslint-plugin-react eslint-plugin-react-hooks
+```
+
+### ESLint settings
+
+```sh
+$ yarn run eslint --init
+✔ How would you like to use ESLint? problems
+✔ What type of modules does your project use? esm
+✔ Which framework does your project use? react
+✔ Does your project use TypeScript? Yes
+✔ Where does your code run? browser
+✔ What format do you want your config file to be in? JavaScript
+✔ Would you like to install them now with npm? Yes
+```
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
