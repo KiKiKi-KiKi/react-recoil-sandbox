@@ -4,6 +4,7 @@ import {
   todoListState,
 } from '../recoil/atoms/todoListState';
 import { useSetRecoilState } from 'recoil';
+import { TodoId } from '../recoil/atoms/todoListState';
 
 export const TodoItem: VFC<TodoItemProps> = ({ id, text, isComplete }) => {
   const setTodoList = useSetRecoilState(todoListState);
@@ -25,6 +26,27 @@ export const TodoItem: VFC<TodoItemProps> = ({ id, text, isComplete }) => {
     });
   }, [id, setTodoList]);
 
+  const deleteItem = useCallback(
+    (deleteId: TodoId) => {
+      setTodoList((oldTodoList) => {
+        const deleteIndex = oldTodoList.findIndex(([id]) => id === deleteId);
+
+        return [
+          ...oldTodoList.slice(0, deleteIndex),
+          ...oldTodoList.slice(deleteIndex + 1),
+        ];
+      });
+    },
+    [setTodoList],
+  );
+
+  const onDeleteItemHandler = () => {
+    if (!window.confirm(`Really delete ${text}?`)) {
+      return;
+    }
+    deleteItem(id);
+  };
+
   return (
     <div id={id}>
       <input
@@ -33,6 +55,9 @@ export const TodoItem: VFC<TodoItemProps> = ({ id, text, isComplete }) => {
         onChange={toggleItemCompletion}
       />
       {isComplete ? <del>{text}</del> : <span>{text}</span>}
+      <button type="button" onClick={onDeleteItemHandler}>
+        X
+      </button>
     </div>
   );
 };

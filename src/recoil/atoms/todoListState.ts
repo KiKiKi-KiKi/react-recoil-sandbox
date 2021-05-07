@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 import { TODOLISTSTATE } from '../keys';
 
-type TodoId = string;
+export type TodoId = string;
 
 export interface TodoItem {
   id: string;
