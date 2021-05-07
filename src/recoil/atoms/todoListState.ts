@@ -1,15 +1,15 @@
 import { atom } from 'recoil';
 import { TODOLISTSTATE } from '../keys';
 
-export type TodoId = string;
+export type TodoIdType = string;
 
-export interface TodoItem {
+export interface TodoItemInterface {
   id: string;
   text: string;
   isComplete: boolean;
 }
 
-type TodoListInterface = [TodoId, TodoItem][];
+export type TodoListInterface = [TodoIdType, TodoItemInterface][];
 
 export const todoListState = atom<TodoListInterface>({
   key: TODOLISTSTATE,
