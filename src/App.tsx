@@ -1,6 +1,14 @@
 import { VFC } from 'react';
+import { RecoilRoot } from 'recoil';
+import { TodoList } from './components/TodoList';
 import './App.css';
 
 export const App: VFC = () => {
-  return <div className="App"></div>;
+  return (
+    <RecoilRoot>
+      <div className="App">
+        <TodoList />
+      </div>
+    </RecoilRoot>
+  );
 };
