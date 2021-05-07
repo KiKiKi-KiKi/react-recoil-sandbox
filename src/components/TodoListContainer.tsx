@@ -1,10 +1,10 @@
 import { VFC } from 'react';
 import { useRecoilValue } from 'recoil';
-import { todoListState } from '../recoil/atoms/todoListState';
+import { filteredTodoListState } from '../recoil/selectors/filteredTodoListState';
 import { TodoItemContainer } from './TodoItemContainer';
 
 export const TodoListContainer: VFC = () => {
-  const todoList = useRecoilValue(todoListState);
+  const todoList = useRecoilValue(filteredTodoListState);
 
   return (
     <ul>
