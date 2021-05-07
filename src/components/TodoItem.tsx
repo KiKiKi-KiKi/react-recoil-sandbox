@@ -6,9 +6,18 @@ import {
 } from '../recoil/atoms/todoListState';
 import { useSetRecoilState } from 'recoil';
 import { replaceItem, removeItem } from '../utils';
+import { TodoItemBody } from './TodoItemBody';
 
+type TodoItemProps = {
+  onEditMode: () => void;
+} & TodoItemInterface;
 
-export const TodoItem: VFC<TodoItemInterface> = ({ id, text, isComplete }) => {
+export const TodoItem: VFC<TodoItemProps> = ({
+  id,
+  text,
+  isComplete,
+  onEditMode,
+}) => {
   const setTodoList = useSetRecoilState(todoListState);
 
   const toggleCompletion = useCallback(
@@ -50,7 +59,12 @@ export const TodoItem: VFC<TodoItemInterface> = ({ id, text, isComplete }) => {
         checked={isComplete}
         onChange={onToggleCompletionHandler}
       />
-      {isComplete ? <del>{text}</del> : <span>{text}</span>}
+      <TodoItemBody text={text} isComplete={isComplete}>
+        <span onClick={onEditMode}>{text}</span>
+        <button type="button" onClick={onEditMode}>
+          Edit
+        </button>
+      </TodoItemBody>
       <button type="button" onClick={onDeleteItemHandler}>
         X
       </button>

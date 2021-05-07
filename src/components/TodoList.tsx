@@ -2,7 +2,7 @@ import { VFC } from 'react';
 import { useRecoilValue } from 'recoil';
 import { todoListState } from '../recoil/atoms/todoListState';
 import { TodoForm } from './TodoForm';
-import { TodoItem } from './TodoItem';
+import { TodoItemContainer } from './TodoItemContainer';
 
 export const TodoList: VFC = () => {
   const todoList = useRecoilValue(todoListState);
@@ -14,7 +14,7 @@ export const TodoList: VFC = () => {
         {todoList.map(([id, item]) => {
           return (
             <li key={id}>
-              <TodoItem {...item} />
+              <TodoItemContainer {...item} />
             </li>
           );
         })}
