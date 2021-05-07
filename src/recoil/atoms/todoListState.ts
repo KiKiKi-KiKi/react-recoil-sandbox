@@ -4,7 +4,7 @@ import { TODOLISTSTATE } from '../keys';
 export type TodoIdType = string;
 
 export interface TodoItemInterface {
-  id: string;
+  id: TodoIdType;
   text: string;
   isComplete: boolean;
 }
