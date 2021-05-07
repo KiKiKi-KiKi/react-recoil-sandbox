@@ -42,5 +42,7 @@ module.exports = {
     'require-yield': 'error',
     // React roules
     'react/prop-types': 'off',
+    // don't need import React
+    'react/react-in-jsx-scope': 'off',
   },
 };
