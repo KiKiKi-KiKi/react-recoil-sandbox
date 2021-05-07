@@ -1,6 +1,7 @@
 import { useCallback, useState, VFC } from 'react';
 import { TodoItemInterface } from '../recoil/atoms/todoListState';
 import { TodoItem } from './TodoItem';
+import { TodoItemEditForm } from './TodoItemEditForm';
 
 export const TodoItemContainer: VFC<TodoItemInterface> = ({ id, ...props }) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -15,7 +16,11 @@ export const TodoItemContainer: VFC<TodoItemInterface> = ({ id, ...props }) => {
   return (
     <div id={id}>
       {isEdit ? (
-        <>Edit</>
+        <TodoItemEditForm
+          id={id}
+          {...props}
+          onEditModeEnd={changeMode(false)}
+        />
       ) : (
         <TodoItem id={id} {...props} onEditMode={changeMode(true)} />
       )}
