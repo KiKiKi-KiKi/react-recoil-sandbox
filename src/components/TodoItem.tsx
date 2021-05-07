@@ -2,44 +2,17 @@ import { useCallback, VFC } from 'react';
 import {
   TodoIdType,
   TodoItemInterface,
-  TodoListInterface,
   todoListState,
 } from '../recoil/atoms/todoListState';
 import { useSetRecoilState } from 'recoil';
+import { replaceItem, removeItem } from '../utils';
 
-type ReplaceItemProps = [TodoIdType, Partial<TodoItemInterface>];
-
-const replaceItem = (list: TodoListInterface) => ([
-  id,
-  item,
-]: ReplaceItemProps): TodoListInterface => {
-  const todoListMap = new Map(list);
-  const currentItem = todoListMap.get(id);
-  if (!currentItem) {
-    return list;
-  }
-
-  todoListMap.set(id, {
-    ...currentItem,
-    ...item,
-  });
-
-  return [...todoListMap.entries()];
-};
-
-const removeItem = (list: TodoListInterface) => (
-  id: TodoIdType,
-): TodoListInterface => {
-  const deleteIndex = list.findIndex(([itemId]) => itemId === id);
-
-  return [...list.slice(0, deleteIndex), ...list.slice(deleteIndex + 1)];
-};
 
 export const TodoItem: VFC<TodoItemInterface> = ({ id, text, isComplete }) => {
   const setTodoList = useSetRecoilState(todoListState);
 
   const toggleCompletion = useCallback(
-    (isComplete: boolean) => {
+    (id: TodoIdType, isComplete: boolean) => {
       setTodoList((oldTodoList) =>
         replaceItem(oldTodoList)([
           id,
@@ -49,7 +22,7 @@ export const TodoItem: VFC<TodoItemInterface> = ({ id, text, isComplete }) => {
         ]),
       );
     },
-    [id, setTodoList],
+    [setTodoList],
   );
 
   const deleteItem = useCallback(
@@ -60,8 +33,8 @@ export const TodoItem: VFC<TodoItemInterface> = ({ id, text, isComplete }) => {
   );
 
   const onToggleCompletionHandler = useCallback(() => {
-    toggleCompletion(isComplete);
-  }, [isComplete, toggleCompletion]);
+    toggleCompletion(id, isComplete);
+  }, [id, isComplete, toggleCompletion]);
 
   const onDeleteItemHandler = () => {
     if (!window.confirm(`Really delete ${text}?`)) {
