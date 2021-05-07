@@ -3,7 +3,7 @@ import { TODOLISTSTATE } from '../keys';
 
 type TodoId = string;
 
-interface TodoItem {
+export interface TodoItem {
   id: string;
   text: string;
   isComplete: boolean;
