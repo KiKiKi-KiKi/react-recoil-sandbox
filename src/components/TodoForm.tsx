@@ -1,10 +1,9 @@
 import { v4 as uuid } from 'uuid';
 import { useCallback, useState, VFC } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { todoListState } from '../recoil/atoms/todoListState';
+import { useSetTodoList } from '../hooks/useSetTodoList';
 
 export const TodoForm: VFC = () => {
-  const setTodoList = useSetRecoilState(todoListState);
+  const { addNewTodo } = useSetTodoList();
   const [text, setText] = useState<string>('');
 
   const onChangeTextHandler = useCallback(
@@ -22,22 +21,7 @@ export const TodoForm: VFC = () => {
       return false;
     }
 
-    setTodoList((oldTodoList) => {
-      const id = uuid();
-
-      return [
-        ...oldTodoList,
-        [
-          id,
-          {
-            id,
-            text: todoText,
-            isComplete: false,
-          },
-        ],
-      ];
-    });
-
+    addNewTodo(todoText);
     setText('');
   };
 
