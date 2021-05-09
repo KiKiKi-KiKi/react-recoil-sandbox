@@ -1,10 +1,6 @@
 import { useCallback, useState, VFC } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { replaceItem } from '../utils';
-import {
-  todoListState,
-  TodoItemInterface,
-} from '../recoil/atoms/todoListState';
+import { TodoItemInterface } from '../recoil/atoms/todoListState';
+import { useUpdateTodo } from '../hooks/useSetTodoList';
 
 type TodoItemEditFormProps = {
   onEditModeEnd: () => void;
@@ -15,7 +11,7 @@ export const TodoItemEditForm: VFC<TodoItemEditFormProps> = ({
   text: initialText,
   onEditModeEnd,
 }) => {
-  const setTodoList = useSetRecoilState(todoListState);
+  const { updateItem } = useUpdateTodo();
   const [text, setText] = useState<string>(initialText);
 
   const onChangeHandler = useCallback(
@@ -23,20 +19,6 @@ export const TodoItemEditForm: VFC<TodoItemEditFormProps> = ({
       setText(evt.currentTarget.value);
     },
     [],
-  );
-
-  const updateTodoItem = useCallback(
-    (text: string) => {
-      setTodoList((oldTodoList) =>
-        replaceItem(oldTodoList)([
-          id,
-          {
-            text,
-          },
-        ]),
-      );
-    },
-    [id, setTodoList],
   );
 
   const onSubmitHandler = useCallback(
@@ -47,10 +29,10 @@ export const TodoItemEditForm: VFC<TodoItemEditFormProps> = ({
         return false;
       }
 
-      updateTodoItem(text);
+      updateItem(id, text);
       onEditModeEnd();
     },
-    [text, onEditModeEnd, updateTodoItem],
+    [id, text, updateItem, onEditModeEnd],
   );
 
   return (

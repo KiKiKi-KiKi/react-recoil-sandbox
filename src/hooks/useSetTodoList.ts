@@ -1,6 +1,8 @@
 import { v4 as uuid } from 'uuid';
 import { useCallback } from 'react';
 import { SetterOrUpdater, useSetRecoilState } from 'recoil';
+import { TodoIdType } from '../recoil/atoms/todoListState';
+import { replaceItem, removeItem } from '../utils';
 import {
   TodoListInterface,
   todoListState,
@@ -28,5 +30,44 @@ export const useSetTodoList = (): IuseSetTodoList => {
   return {
     setTodoList,
     addNewTodo,
+  };
+};
+
+interface IuseUpdateTodo {
+  toggleCompletion: (id: TodoIdType, isComplete: boolean) => void;
+  updateItem: (id: TodoIdType, text: string) => void;
+  deleteItem: (id: TodoIdType) => void;
+}
+
+export const useUpdateTodo = (): IuseUpdateTodo => {
+  const setTodoList = useSetRecoilState(todoListState);
+
+  const toggleCompletion = useCallback(
+    (id: TodoIdType, isComplete: boolean) => {
+      setTodoList((oldTodoList) =>
+        replaceItem(oldTodoList)([id, { isComplete: !isComplete }]),
+      );
+    },
+    [setTodoList],
+  );
+
+  const updateItem = useCallback(
+    (id: TodoIdType, text: string) => {
+      setTodoList((oldTodoList) => replaceItem(oldTodoList)([id, { text }]));
+    },
+    [setTodoList],
+  );
+
+  const deleteItem = useCallback(
+    (id: TodoIdType) => {
+      setTodoList((oldTodoList) => removeItem(oldTodoList)(id));
+    },
+    [setTodoList],
+  );
+
+  return {
+    toggleCompletion,
+    updateItem,
+    deleteItem,
   };
 };
