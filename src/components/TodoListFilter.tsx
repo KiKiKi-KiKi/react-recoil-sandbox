@@ -1,30 +1,20 @@
 import { useCallback, useState, VFC } from 'react';
-import { useSetRecoilState } from 'recoil';
 import {
-  todoListFilterState,
-  FilterTypes,
-  showAll,
-  showComplete,
-  showUncomplete,
-} from '../recoil/atoms/todoListFilterState';
-
-type FilterKeyType = 0 | 1 | 2;
-
-const getFilterType = (key: FilterKeyType): FilterTypes => {
-  return key === 0 ? showAll : key === 1 ? showComplete : showUncomplete;
-};
+  useSetTodoListFilter,
+  FilterTypeKeys,
+} from '../hooks/useSetTodoListFilter';
 
 export const TodoListFilter: VFC = () => {
-  const setFilter = useSetRecoilState(todoListFilterState);
-  const [selectVal, setSelectVal] = useState<FilterKeyType>(0);
+  const { setFilter, getFilterTypeByKey } = useSetTodoListFilter();
+  const [selectVal, setSelectVal] = useState<FilterTypeKeys>(0);
 
   const onChnageHandler = useCallback(
     (evt: React.ChangeEvent<HTMLSelectElement>) => {
-      const key = Number(evt.currentTarget.value) as FilterKeyType;
+      const key = Number(evt.currentTarget.value) as FilterTypeKeys;
       setSelectVal(key);
-      setFilter(getFilterType(key));
+      setFilter(getFilterTypeByKey(key));
     },
-    [setFilter],
+    [setFilter, getFilterTypeByKey],
   );
 
   return (
