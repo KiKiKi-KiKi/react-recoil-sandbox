@@ -1,14 +1,13 @@
 import { VFC } from 'react';
-import { useRecoilValue } from 'recoil';
-import { filteredTodoListState } from '../recoil/selectors/filteredTodoListState';
+import { useFilteredTodoListValue } from '../hooks/useFilteredTodoListValue';
 import { TodoItemContainer } from './TodoItemContainer';
 
 export const TodoListContainer: VFC = () => {
-  const todoList = useRecoilValue(filteredTodoListState);
+  const filteredTodoList = useFilteredTodoListValue();
 
   return (
     <ul>
-      {todoList.map(([id, item]) => {
+      {filteredTodoList.map(([id, item]) => {
         return (
           <li key={id}>
             <TodoItemContainer {...item} />

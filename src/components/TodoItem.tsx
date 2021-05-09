@@ -1,11 +1,6 @@
 import { useCallback, VFC } from 'react';
-import {
-  TodoIdType,
-  TodoItemInterface,
-  todoListState,
-} from '../recoil/atoms/todoListState';
-import { useSetRecoilState } from 'recoil';
-import { replaceItem, removeItem } from '../utils';
+import { TodoItemInterface } from '../recoil/atoms/todoListState';
+import { useUpdateTodo } from '../hooks/useSetTodoList';
 import { TodoItemBody } from './TodoItemBody';
 
 type TodoItemProps = {
@@ -18,28 +13,7 @@ export const TodoItem: VFC<TodoItemProps> = ({
   isComplete,
   onEditMode,
 }) => {
-  const setTodoList = useSetRecoilState(todoListState);
-
-  const toggleCompletion = useCallback(
-    (id: TodoIdType, isComplete: boolean) => {
-      setTodoList((oldTodoList) =>
-        replaceItem(oldTodoList)([
-          id,
-          {
-            isComplete: !isComplete,
-          },
-        ]),
-      );
-    },
-    [setTodoList],
-  );
-
-  const deleteItem = useCallback(
-    (deleteId: TodoIdType) => {
-      setTodoList((oldTodoList) => removeItem(oldTodoList)(deleteId));
-    },
-    [setTodoList],
-  );
+  const { toggleCompletion, deleteItem } = useUpdateTodo();
 
   const onToggleCompletionHandler = useCallback(() => {
     toggleCompletion(id, isComplete);

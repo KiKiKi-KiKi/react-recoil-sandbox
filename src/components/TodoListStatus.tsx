@@ -1,6 +1,5 @@
 import { VFC } from 'react';
-import { useRecoilValue } from 'recoil';
-import { todoListStatusState } from '../recoil/selectors/todoListStatusState';
+import { useTodoListState } from '../hooks/useTodoListState';
 
 export const TodoListStatus: VFC = () => {
   const {
@@ -8,7 +7,7 @@ export const TodoListStatus: VFC = () => {
     completeNum,
     unCompleteNum,
     percentCompleted,
-  } = useRecoilValue(todoListStatusState);
+  } = useTodoListState();
 
   const formattedPercentCompleted =
     percentCompleted && percentCompleted.toFixed(2);
