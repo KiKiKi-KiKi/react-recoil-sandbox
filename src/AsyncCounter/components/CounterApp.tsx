@@ -2,6 +2,7 @@ import { useCallback, VFC } from 'react';
 import { useRecoilState } from 'recoil';
 import { counterState } from '../recoil/atoms/counterState';
 import { LazyCounter } from './LazyCounter';
+import { ResetButton } from './ResetButton';
 
 const Counter: VFC = () => {
   const [{ count }, setState] = useRecoilState(counterState);
@@ -36,6 +37,8 @@ export const CounterApp: VFC = () => {
       Counter
       <Counter />
       <LazyCounter />
+      <hr />
+      <ResetButton />
     </div>
   );
 };
