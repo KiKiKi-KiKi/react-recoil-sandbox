@@ -1,6 +1,20 @@
-import { Suspense, VFC } from 'react';
-import { useRecoilValue } from 'recoil';
+import { Suspense, useCallback, VFC } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { lazyCounterState } from '../recoil/selectors/lazyCounterState';
+
+const LazyDoubleButton: VFC = () => {
+  const setCount = useSetRecoilState(lazyCounterState);
+
+  const handleClick = useCallback(() => {
+    setCount({ count: 2 });
+  }, [setCount]);
+
+  return (
+    <button type="button" onClick={handleClick}>
+      +2
+    </button>
+  );
+};
 
 const LazyCount: VFC = () => {
   const { count } = useRecoilValue(lazyCounterState);
@@ -15,6 +29,7 @@ export const LazyCounter: VFC = () => {
       <Suspense fallback={<p>loading...</p>}>
         <LazyCount />
       </Suspense>
+      <LazyDoubleButton />
     </div>
   );
 };

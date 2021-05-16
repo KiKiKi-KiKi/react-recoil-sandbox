@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 import { COUNTER_STATE } from '../keys';
 
-interface CounterInterface {
+export interface CounterInterface {
   count: number;
 }
 
