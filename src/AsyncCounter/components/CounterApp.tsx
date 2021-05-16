@@ -1,6 +1,7 @@
 import { useCallback, VFC } from 'react';
 import { useRecoilState } from 'recoil';
 import { counterState } from '../recoil/atoms/counterState';
+import { LazyCounter } from './LazyCounter';
 
 const Counter: VFC = () => {
   const [{ count }, setState] = useRecoilState(counterState);
@@ -34,6 +35,7 @@ export const CounterApp: VFC = () => {
     <div className="counterApp">
       Counter
       <Counter />
+      <LazyCounter />
     </div>
   );
 };
