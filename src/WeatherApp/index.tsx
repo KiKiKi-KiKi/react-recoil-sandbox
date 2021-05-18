@@ -1,5 +1,6 @@
 import { VFC } from 'react';
 import { WeatherForm } from './components/WeatherForm';
+import { WeatherResult } from './components/WeatherResult';
 
 export const WeatherApp: VFC = () => {
   return (
@@ -7,6 +8,7 @@ export const WeatherApp: VFC = () => {
       <h1>お天気アプリ</h1>
 
       <WeatherForm />
+      <WeatherResult />
     </div>
   );
 };
