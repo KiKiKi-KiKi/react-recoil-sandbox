@@ -15,7 +15,9 @@ export const cities = [
 
 export type CityId = typeof cities[number]['id'];
 
-export const cityIdState = atom<CityId | undefined>({
+export type CityIdType = CityId | undefined;
+
+export const cityIdState = atom<CityIdType>({
   key: CITY_ID_STATE,
   default: undefined,
 });
