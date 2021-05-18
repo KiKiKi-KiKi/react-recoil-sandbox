@@ -8,7 +8,7 @@ export const WeatherForm: VFC = () => {
 
   const handleChangeCity = useCallback(
     (evt: React.ChangeEvent<HTMLSelectElement>) => {
-      const id = evt.currentTarget.value as CityIdType;
+      const id = (evt.currentTarget.value as CityIdType) || undefined;
       setCityId(id);
     },
     [],
@@ -24,12 +24,8 @@ export const WeatherForm: VFC = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <select
-        onChange={handleChangeCity}
-        defaultValue={undefined}
-        value={cityId}
-      >
-        <option value={undefined}>選択なし</option>
+      <select onChange={handleChangeCity} defaultValue="" value={cityId}>
+        <option value="">選択なし</option>
         {cities.map((city) => (
           <option key={city.id} value={city.id}>
             {city.name}
