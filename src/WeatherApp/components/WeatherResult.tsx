@@ -1,5 +1,6 @@
 import { createContext, ReactNode, Suspense, useContext, VFC } from 'react';
 import { useRecoilValue } from 'recoil';
+import { ErrorBoundary } from '../ErrorBoundary';
 import { weatherState } from '../recoil/selector/weatherState';
 
 type HasWeather = boolean;
@@ -37,8 +38,10 @@ const WeatherResultContainer: VFC = () => {
 
 export const WeatherResult: VFC = () => {
   return (
-    <Suspense fallback={<p>Loading</p>}>
-      <WeatherResultContainer />
-    </Suspense>
+    <ErrorBoundary fallback={<p>Error</p>}>
+      <Suspense fallback={<p>Loading</p>}>
+        <WeatherResultContainer />
+      </Suspense>
+    </ErrorBoundary>
   );
 };
