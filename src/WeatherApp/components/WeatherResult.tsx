@@ -20,7 +20,11 @@ const Container: VFC<WeatherContainerProps> = ({ children }) => {
 const WeatherResultContainer: VFC = () => {
   const weather = useRecoilValue(weatherState);
   const cityName = weather?.name;
-  console.log(weather);
+  console.log({ weather });
+
+  if (Number(weather?.cod) === 400) {
+    throw new Error(weather?.message);
+  }
 
   return (
     <Context.Provider value={!!cityName}>
