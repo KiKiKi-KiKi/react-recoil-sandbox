@@ -2,9 +2,9 @@ import { selector } from 'recoil';
 import { API_KEY } from '../../config';
 import { WEATHER_STATE } from '../keys';
 import { cityIdState } from '../atom/cityIdState';
+import { Openweathermap } from '../../models/openweathermap';
 
-// TODO: Define interface of openweathermap's response for return type of selector.
-export const weatherState = selector<any>({
+export const weatherState = selector<Openweathermap | undefined>({
   key: WEATHER_STATE,
   get: async ({ get }) => {
     const cityId = get(cityIdState);
@@ -15,7 +15,7 @@ export const weatherState = selector<any>({
     const res = await fetch(
       `https://api.openweathermap.org/data/2.5/weather?id=${cityId}&appid=${API_KEY}&units=metric&lang=ja`,
     );
-    const resJson = await res.json();
+    const resJson = (await res.json()) as Openweathermap;
 
     return resJson;
   },
