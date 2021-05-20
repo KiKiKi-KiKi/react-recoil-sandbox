@@ -38,5 +38,6 @@ export type Openweathermap = {
   timezone: number;
   id: number;
   name: string;
-  cod: number;
+  cod: number | string;
+  message?: string;
 };
