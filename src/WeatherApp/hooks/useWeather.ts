@@ -1,8 +1,16 @@
 import { useRecoilValue } from 'recoil';
-import { weatherState } from '../recoil/selector/weatherState';
+import { Openweathermap } from '../models/openweathermap';
+import { cityIdState } from '../recoil/atom/cityIdState';
+import { weatherStateFamily } from '../recoil/selector/weatherStateFamily';
 
-export const useWeather = () => {
-  const weather = useRecoilValue(weatherState);
+interface IuseWeather {
+  weather: Openweathermap | undefined;
+}
+
+export const useWeather = (): IuseWeather => {
+  const cityId = useRecoilValue(cityIdState);
+  const weather = useRecoilValue(weatherStateFamily(cityId));
+
   const errorMessage = weather?.message;
   console.log({ weather });
 
