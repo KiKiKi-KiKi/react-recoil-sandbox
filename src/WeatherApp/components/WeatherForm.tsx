@@ -1,10 +1,12 @@
 import { useCallback, useState, VFC } from 'react';
 import { cities, CityIdType } from '../recoil/atom/cityIdState';
 import { useCitySelector } from '../hooks/useCitySelector';
+import { useRefreshWeatherByCityId } from '../hooks/useRefreshWeatherByCityId';
 
 export const WeatherForm: VFC = () => {
   const [cityId, setCityId] = useState<CityIdType>();
-  const { handleSetCityId } = useCitySelector();
+  const { cityId: cityIdState, handleSetCityId } = useCitySelector();
+  const { handleRefresh } = useRefreshWeatherByCityId(cityIdState);
 
   const handleChangeCity = useCallback(
     (evt: React.ChangeEvent<HTMLSelectElement>) => {
@@ -33,6 +35,9 @@ export const WeatherForm: VFC = () => {
         ))}
       </select>
       <button type="submit">SUBMIT</button>
+      <button type="button" onClick={handleRefresh}>
+        Refresh
+      </button>
     </form>
   );
 };
