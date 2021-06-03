@@ -1,44 +1,41 @@
-import axios from 'axios';
-import useSWR from 'swr';
-import { MOVIE_API_URL } from '../config';
-import { SearchResultInterface, MovieItem } from '../models/omdbapi';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { searchKeyState } from '../recoil/atoms/searchKeyState';
+import { moviesState } from '../recoil/selectors/moviesState';
+import { MovieItem } from '../models/omdbapi';
+import { useCallback } from 'react';
 
-const getSearchMovieUrl = (searchValue: string): string => {
-  return `${MOVIE_API_URL}&s=${searchValue}`;
-};
-
-const fetcher = async (url: string): Promise<MovieItem[] | undefined> => {
-  try {
-    const res = await axios.get(url);
-    const data = res.data as SearchResultInterface;
-
-    if (data.Response !== 'True') {
-      throw new Error(data.Error);
-    }
-
-    return data.Search;
-  } catch (error) {
-    const message = error.response?.data.error || error.message;
-    throw new Error(message);
-  }
-};
-
-interface IuseMovies {
-  loading: boolean;
-  data: MovieItem[];
-  error?: string;
+interface UpdateHandler {
+  update: (keyword: string) => void;
+  reset: () => void;
 }
 
-export const useMovies = (keyword: string): IuseMovies => {
-  console.log('hook', keyword);
-  const { data, error } = useSWR<MovieItem[] | undefined, Error>(
-    getSearchMovieUrl(keyword),
-    fetcher,
+export const useUpdateSearchKeyword = (): UpdateHandler => {
+  const setter = useSetRecoilState(searchKeyState);
+
+  const update = useCallback(
+    (keyword: string): void => {
+      const value = keyword.trim();
+      if (!value) {
+        return;
+      }
+
+      setter(value);
+    },
+    [setter],
   );
 
+  const reset = useCallback(() => {
+    setter('');
+  }, [setter]);
+
   return {
-    loading: !data && !error,
-    data: data || [],
-    error: error?.message,
+    update,
+    reset,
   };
+};
+
+export const useGetMovies = (): MovieItem[] => {
+  const movies = useRecoilValue(moviesState);
+
+  return movies || [];
 };

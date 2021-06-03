@@ -1,12 +1,10 @@
 import { VFC } from 'react';
-import { MovieItem } from '../models/omdbapi';
+import { useGetMovies } from '../hooks/useMovies';
 import { Movie } from './Movie';
 
-interface MovieListProps {
-  movies: MovieItem[];
-}
+export const MovieList: VFC = () => {
+  const movies = useGetMovies();
 
-export const MovieList: VFC<MovieListProps> = ({ movies }) => {
   return (
     <div className="movies">
       {movies.map((item, index) => (

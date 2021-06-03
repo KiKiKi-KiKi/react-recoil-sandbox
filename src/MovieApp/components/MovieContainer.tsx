@@ -1,23 +1,44 @@
-import { VFC } from 'react';
-import { useMovies } from '../hooks/useMovies';
+import { Suspense, VFC } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { MovieList } from './MovieList';
+import { useUpdateSearchKeyword } from '../hooks/useMovies';
 
-interface MovieContainerProps {
-  keyword: string;
-}
+type ErrorFallbackProps = {
+  error: Error;
+  resetErrorBoundary: (...args: Array<unknown>) => void;
+};
 
-export const MovieContainer: VFC<MovieContainerProps> = ({ keyword }) => {
-  const { loading, data, error } = useMovies(keyword);
+const ErrorFallback: VFC<ErrorFallbackProps> = ({
+  error,
+  resetErrorBoundary,
+}) => {
+  const { reset } = useUpdateSearchKeyword();
+  const handleResetError = () => {
+    reset();
+    setTimeout(() => {
+      resetErrorBoundary();
+    }, 100);
+  };
 
   return (
+    <>
+      <div className="errorMessage">{error.message}</div>
+      <br />
+      <button type="button" onClick={handleResetError}>
+        Reset!
+      </button>
+    </>
+  );
+};
+
+export const MovieContainer: VFC = () => {
+  return (
     <div className="moviesContainer">
-      {loading ? (
-        <span>Loading ...</span>
-      ) : error ? (
-        <div className="errorMessage">{error}</div>
-      ) : (
-        <MovieList movies={data} />
-      )}
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <Suspense fallback={<p>Loading...</p>}>
+          <MovieList />
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 };

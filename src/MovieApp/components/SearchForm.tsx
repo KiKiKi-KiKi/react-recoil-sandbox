@@ -1,10 +1,8 @@
 import { useCallback, useState, VFC } from 'react';
+import { useUpdateSearchKeyword } from '../hooks/useMovies';
 
-interface SearchFormProp {
-  onSearch: (value: string) => void;
-}
-
-export const SearchForm: VFC<SearchFormProp> = ({ onSearch }) => {
+export const SearchForm: VFC = () => {
+  const { update } = useUpdateSearchKeyword();
   const [searchValue, setSearchValue] = useState<string>('');
 
   const handleChangeSearchValue = useCallback(
@@ -26,7 +24,7 @@ export const SearchForm: VFC<SearchFormProp> = ({ onSearch }) => {
       return;
     }
 
-    onSearch(searchText);
+    update(searchText);
 
     resetSearchField();
   };
